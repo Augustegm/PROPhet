@@ -482,7 +482,7 @@ void Structure::Get_Forces(const vector<vector<REAL> > &dE_dG, REAL **f)
         if (!G3p.empty() || !G4p.empty()) {
           for(int jj2 = 0; jj2< jnum; jj2++) {
             int j2 = firstneigh[i][jj2];
-            if((j2 == j) || (j2 == i)) {
+            if((j2 >= j) || (j2 == i)) {
               continue;
             }
 
@@ -1040,7 +1040,7 @@ void Structure::Calc_G(int ii)
       if (!G3p.empty() || !G4p.empty() ) {
         for(int jj2 = 0; jj2< jnum; jj2++) {
           int j2 = jlist[jj2];
-          if((j2 == j) || (j2 == i )) {
+          if((j2 >= j) || (j2 == i )) {
             continue;
           }
           for(int z=0; z<3; z++) {

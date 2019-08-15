@@ -527,11 +527,10 @@ REAL Neural_network::evaluate_MD(vector<REAL> &dE_dG)
   }
 
   for (int i=0; i<values[0].size(); i++) {
-    if (!(values[0][i]-params.input_mean[i])) {
-      values[0][i] = 0;
-    } else {
+
+    if (2*params.input_variance[i] > 1e-8) {
       values[0][i] = (values[0][i]-params.input_mean[i])/params.input_variance[i];
-    }
+    } 
   }
 
   for (int layer=0; layer<nodes.size()-1; layer++) {
@@ -562,7 +561,9 @@ REAL Neural_network::evaluate_MD(vector<REAL> &dE_dG)
   dE_dG = dOut_dIn;
 
   for (int i=0; i<dE_dG.size(); i++) {
-    dE_dG[i] *= params.output_variance/params.input_variance[i];
+    if (2*params.input_variance[i] > 1e-8) {
+      dE_dG[i] *= params.output_variance/params.input_variance[i];
+    }
   }
 
   return output;
